@@ -1,57 +1,79 @@
 {
-  "name": "restart-life-web",
-  "version": "1.0.0",
-  "description": "《重启人生》Web前端 - 基于现代Web技术的人生模拟游戏",
-  "type": "module",
+  "name": "restart-life-workspace",
+  "version": "2.0.0",
+  "description": "《重启人生》游戏项目工作区管理",
+  "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --ext js,jsx,ts,tsx --fix",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "type-check": "tsc --noEmit"
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.0",
-    "axios": "^1.7.9",
-    "zustand": "^5.0.2",
-    "lucide-react": "^0.468.0",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^2.5.4"
+    "install:all": "npm run install:web && npm run install:backend",
+    "install:web": "cd ../restart_life_web && npm install",
+    "install:backend": "cd ../restart_life_backend && go mod tidy",
+    
+    "dev:all": "concurrently \"npm run dev:web\" \"npm run dev:backend\"",
+    "dev:web": "cd ../restart_life_web && npm run dev",
+    "dev:backend": "cd ../restart_life_backend && go run cmd/server/main.go",
+    
+    "build:all": "npm run build:web && npm run build:backend",
+    "build:web": "cd ../restart_life_web && npm run build",
+    "build:backend": "cd ../restart_life_backend && go build -o bin/server cmd/server/main.go",
+    
+    "test:all": "npm run test:web && npm run test:backend",
+    "test:web": "cd ../restart_life_web && npm run test",
+    "test:backend": "cd ../restart_life_backend && go test ./...",
+    
+    "format:all": "npm run format:web && npm run format:backend",
+    "format:web": "cd ../restart_life_web && npm run lint:fix",
+    "format:backend": "cd ../restart_life_backend && go fmt ./...",
+    
+    "clean:all": "npm run clean:web && npm run clean:backend",
+    "clean:web": "cd ../restart_life_web && rm -rf node_modules dist",
+    "clean:backend": "cd ../restart_life_backend && rm -rf bin/",
+    
+    "status:all": "npm run status:repos",
+    "status:repos": "echo '=== 仓库状态检查 ===' && npm run status:main && npm run status:web && npm run status:backend && npm run status:unity",
+    "status:main": "echo '📄 主文档仓库:' && git status --porcelain",
+    "status:web": "echo '🌐 Web前端仓库:' && cd ../restart_life_web && git status --porcelain",
+    "status:backend": "echo '🚀 后端API仓库:' && cd ../restart_life_backend && git status --porcelain",
+    "status:unity": "echo '🎮 Unity客户端仓库:' && cd ../restart_life_frontend && git status --porcelain",
+    
+    "pull:all": "npm run pull:main && npm run pull:web && npm run pull:backend && npm run pull:unity",
+    "pull:main": "echo '📄 更新主文档仓库...' && git pull",
+    "pull:web": "echo '🌐 更新Web前端仓库...' && cd ../restart_life_web && git pull",
+    "pull:backend": "echo '🚀 更新后端API仓库...' && cd ../restart_life_backend && git pull",
+    "pull:unity": "echo '🎮 更新Unity客户端仓库...' && cd ../restart_life_frontend && git pull",
+    
+    "setup:workspace": "npm run clone:all && npm run install:all",
+    "clone:all": "echo '请手动克隆各个仓库到正确位置，参考仓库管理指南.md'",
+    
+    "docs:serve": "echo '启动文档服务器...' && python3 -m http.server 8000",
+    "docs:build": "echo '构建项目文档...'",
+    
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
   },
   "devDependencies": {
-    "@types/react": "^18.3.17",
-    "@types/react-dom": "^18.3.5",
-    "@typescript-eslint/eslint-plugin": "^8.15.0",
-    "@typescript-eslint/parser": "^8.15.0",
-    "@vitejs/plugin-react": "^4.3.4",
-    "autoprefixer": "^10.4.20",
-    "eslint": "^9.15.0",
-    "eslint-plugin-react": "^7.37.2",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.14",
-    "postcss": "^8.4.49",
-    "prettier": "^3.4.2",
-    "tailwindcss": "^3.4.15",
-    "typescript": "^5.6.3",
-    "vite": "^6.0.1"
+    "concurrently": "^8.2.2"
   },
-  "keywords": [
-    "react",
-    "typescript",
-    "vite",
-    "game",
-    "life-simulation",
-    "web-game"
+  "workspaces": [
+    "../restart_life_web"
   ],
-  "author": "《重启人生》开发团队",
-  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/restart-life-web.git"
+    "url": "https://github.com/your-username/restart-life.git"
   },
-  "homepage": "https://github.com/your-org/restart-life-web#readme"
+  "keywords": [
+    "restart-life",
+    "game",
+    "unity",
+    "react",
+    "go",
+    "workspace",
+    "monorepo-management"
+  ],
+  "author": "《重启人生》开发团队",
+  "license": "MIT"
 } 

@@ -2,22 +2,32 @@
 # Restart Life Game Workspace Configuration
 
 name: restart-life-workspace
-version: "1.0.0"
-description: "《重启人生》游戏项目工作区，包含Unity前端和Go后端"
+version: "2.0.0"
+description: "《重启人生》游戏项目工作区，包含Unity客户端、Web前端和Go后端"
 
 # 子项目配置
 projects:
-  frontend:
+  unity_frontend:
     name: "restart-life-unity"
     type: "unity"
-    path: "./restart-life-unity"
+    path: "../restart_life_frontend"
+    repository: "https://github.com/your-username/restart-life-unity.git"
     version: "2022.3"
     description: "Unity客户端游戏项目"
+    
+  web_frontend:
+    name: "restart-life-web"
+    type: "react"
+    path: "../restart_life_web"
+    repository: "https://github.com/your-username/restart-life-web.git"
+    version: "18+"
+    description: "React Web前端游戏界面"
     
   backend:
     name: "restart-life-api"
     type: "go"
-    path: "./restart-life-api"
+    path: "../restart_life_backend"
+    repository: "https://github.com/your-username/restart-life-api.git"
     version: "1.21+"
     description: "Go API服务项目"
 
@@ -42,28 +52,38 @@ environments:
 scripts:
   # 安装所有依赖
   install:
-    frontend: "echo 'Unity项目无需额外安装，请使用Unity Hub打开项目'"
-    backend: "cd restart-life-api && go mod tidy"
+    unity: "echo 'Unity项目无需额外安装，请使用Unity Hub打开项目'"
+    web: "cd ../restart_life_web && npm install"
+    backend: "cd ../restart_life_backend && go mod tidy"
+    all: "npm run install:all"
     
   # 启动开发服务
   dev:
-    frontend: "echo '请使用Unity编辑器启动前端项目'"
-    backend: "cd restart-life-api && go run cmd/server/main.go"
+    unity: "echo '请使用Unity编辑器启动Unity项目'"
+    web: "cd ../restart_life_web && npm run dev"
+    backend: "cd ../restart_life_backend && go run cmd/server/main.go"
+    all: "npm run dev:all"
     
   # 构建项目
   build:
-    frontend: "echo '请在Unity中选择Build Settings进行构建'"
-    backend: "cd restart-life-api && go build -o bin/server cmd/server/main.go"
+    unity: "echo '请在Unity中选择Build Settings进行构建'"
+    web: "cd ../restart_life_web && npm run build"
+    backend: "cd ../restart_life_backend && go build -o bin/server cmd/server/main.go"
+    all: "npm run build:all"
     
   # 运行测试
   test:
-    frontend: "echo '请在Unity Test Runner中运行测试'"
-    backend: "cd restart-life-api && go test ./..."
+    unity: "echo '请在Unity Test Runner中运行测试'"
+    web: "cd ../restart_life_web && npm run test"
+    backend: "cd ../restart_life_backend && go test ./..."
+    all: "npm run test:all"
     
   # 代码格式化
   format:
-    frontend: "echo 'Unity C#代码请使用IDE自动格式化'"
-    backend: "cd restart-life-api && go fmt ./..."
+    unity: "echo 'Unity C#代码请使用IDE自动格式化'"
+    web: "cd ../restart_life_web && npm run lint:fix"
+    backend: "cd ../restart_life_backend && go fmt ./..."
+    all: "npm run format:all"
     
   # 启动完整开发环境
   docker:
@@ -75,27 +95,40 @@ scripts:
 documentation:
   prd: "./prdtd/PRD.md"
   regulations: "./regulations/regulation.md"
-  frontend_td: "./prdtd/前端技术设计文档_Frontend_TD.md"
+  unity_td: "./prdtd/前端技术设计文档_Frontend_TD.md"
+  web_td: "./prdtd/Web前端技术设计文档_Frontend_Web_TD.md"
   backend_td: "./prdtd/后端技术设计文档_Backend_TD.md"
+  technical_design: "./prdtd/Technical_Design_Document.md"
+  repository_guide: "./仓库管理指南.md"
+  web_setup_guide: "./Web前端独立化指南.md"
   api_docs: "./docs/api/"
   deployment: "./docs/deployment/"
 
 # 团队协作
 team:
-  frontend:
-    lead: "前端技术负责人"
-    members: ["Unity开发工程师", "UI/UX设计师"]
+  unity_team:
+    lead: "Unity技术负责人"
+    members: ["Unity开发工程师", "游戏UI设计师"]
     responsibilities: ["Unity客户端开发", "游戏界面设计", "客户端性能优化"]
+    repository: "restart-life-unity"
     
-  backend:
+  web_team:
+    lead: "Web前端技术负责人"
+    members: ["React开发工程师", "Web UI/UX设计师"]
+    responsibilities: ["Web前端开发", "浏览器游戏界面", "Web性能优化"]
+    repository: "restart-life-web"
+    
+  backend_team:
     lead: "后端技术负责人"
-    members: ["Go后端工程师", "数据库工程师"]
-    responsibilities: ["API服务开发", "数据库设计", "服务端性能优化"]
+    members: ["Go后端工程师", "数据库工程师", "DevOps工程师"]
+    responsibilities: ["API服务开发", "数据库设计", "服务端性能优化", "部署运维"]
+    repository: "restart-life-api"
     
-  product:
+  product_team:
     lead: "产品经理"
-    members: ["产品策划", "内容设计师"]
-    responsibilities: ["需求分析", "游戏内容设计", "用户体验优化"]
+    members: ["产品策划", "内容设计师", "游戏策划"]
+    responsibilities: ["需求分析", "游戏内容设计", "用户体验优化", "项目协调"]
+    repository: "restart-life (主文档仓库)"
 
 # Git工作流
 git:
@@ -106,11 +139,13 @@ git:
   
   conventional_commits: true
   commit_scopes:
-    - "frontend"
+    - "unity"
+    - "web"
     - "backend"
     - "docs"
     - "config"
     - "ci"
+    - "workspace"
 
 # CI/CD配置
 ci_cd:
@@ -138,6 +173,19 @@ tools:
       - "com.unity.textmeshpro"
       - "com.unity.analytics"
       
+  web:
+    node_version: "18+"
+    framework: "React 18"
+    build_tool: "Vite"
+    dependencies:
+      - "react"
+      - "typescript"
+      - "tailwindcss"
+      - "zustand"
+      - "react-router-dom"
+      - "axios"
+      - "lucide-react"
+      
   go:
     version: "1.21+"
     dependencies:
@@ -150,6 +198,7 @@ tools:
     cache: "Redis 7+"
     container: "Docker & Docker Compose"
     monitoring: "Prometheus & Grafana"
+    web_hosting: "GitHub Pages / Vercel / Netlify"
 
 # 联系信息
 contacts:
