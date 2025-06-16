@@ -10,7 +10,7 @@ projects:
   unity_frontend:
     name: "restart-life-unity"
     type: "unity"
-    path: "../restart_life_frontend"
+    path: "../restart_life_unity"
     repository: "https://github.com/your-username/restart-life-unity.git"
     version: "2022.3"
     description: "Unity客户端游戏项目"

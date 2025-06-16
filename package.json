@@ -33,13 +33,13 @@
     "status:main": "echo '📄 主文档仓库:' && git status --porcelain",
     "status:web": "echo '🌐 Web前端仓库:' && cd ../restart_life_web && git status --porcelain",
     "status:backend": "echo '🚀 后端API仓库:' && cd ../restart_life_backend && git status --porcelain",
-    "status:unity": "echo '🎮 Unity客户端仓库:' && cd ../restart_life_frontend && git status --porcelain",
+    "status:unity": "echo '🎮 Unity客户端仓库:' && cd ../restart_life_unity && git status --porcelain",
     
     "pull:all": "npm run pull:main && npm run pull:web && npm run pull:backend && npm run pull:unity",
     "pull:main": "echo '📄 更新主文档仓库...' && git pull",
     "pull:web": "echo '🌐 更新Web前端仓库...' && cd ../restart_life_web && git pull",
     "pull:backend": "echo '🚀 更新后端API仓库...' && cd ../restart_life_backend && git pull",
-    "pull:unity": "echo '🎮 更新Unity客户端仓库...' && cd ../restart_life_frontend && git pull",
+    "pull:unity": "echo '🎮 更新Unity客户端仓库...' && cd ../restart_life_unity && git pull",
     
     "setup:workspace": "npm run clone:all && npm run install:all",
     "clone:all": "echo '请手动克隆各个仓库到正确位置，参考仓库管理指南.md'",
