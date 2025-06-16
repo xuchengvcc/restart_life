@@ -1,0 +1,158 @@
+# 《重启人生》项目工作区配置
+# Restart Life Game Workspace Configuration
+
+name: restart-life-workspace
+version: "1.0.0"
+description: "《重启人生》游戏项目工作区，包含Unity前端和Go后端"
+
+# 子项目配置
+projects:
+  frontend:
+    name: "restart-life-unity"
+    type: "unity"
+    path: "./restart-life-unity"
+    version: "2022.3"
+    description: "Unity客户端游戏项目"
+    
+  backend:
+    name: "restart-life-api"
+    type: "go"
+    path: "./restart-life-api"
+    version: "1.21+"
+    description: "Go API服务项目"
+
+# 开发环境配置
+environments:
+  development:
+    api_url: "http://localhost:8080/api/v1"
+    database_url: "postgres://user:password@localhost:5432/restart_life_dev"
+    redis_url: "redis://localhost:6379"
+    
+  testing:
+    api_url: "http://test-api.restart-life.com/api/v1"
+    database_url: "postgres://user:password@test-db:5432/restart_life_test"
+    redis_url: "redis://test-redis:6379"
+    
+  production:
+    api_url: "https://api.restart-life.com/api/v1"
+    database_url: "${DATABASE_URL}"
+    redis_url: "${REDIS_URL}"
+
+# 开发脚本配置
+scripts:
+  # 安装所有依赖
+  install:
+    frontend: "echo 'Unity项目无需额外安装，请使用Unity Hub打开项目'"
+    backend: "cd restart-life-api && go mod tidy"
+    
+  # 启动开发服务
+  dev:
+    frontend: "echo '请使用Unity编辑器启动前端项目'"
+    backend: "cd restart-life-api && go run cmd/server/main.go"
+    
+  # 构建项目
+  build:
+    frontend: "echo '请在Unity中选择Build Settings进行构建'"
+    backend: "cd restart-life-api && go build -o bin/server cmd/server/main.go"
+    
+  # 运行测试
+  test:
+    frontend: "echo '请在Unity Test Runner中运行测试'"
+    backend: "cd restart-life-api && go test ./..."
+    
+  # 代码格式化
+  format:
+    frontend: "echo 'Unity C#代码请使用IDE自动格式化'"
+    backend: "cd restart-life-api && go fmt ./..."
+    
+  # 启动完整开发环境
+  docker:
+    all: "docker-compose up -d"
+    stop: "docker-compose down"
+    logs: "docker-compose logs -f"
+
+# 文档路径
+documentation:
+  prd: "./prdtd/PRD.md"
+  regulations: "./regulations/regulation.md"
+  frontend_td: "./prdtd/前端技术设计文档_Frontend_TD.md"
+  backend_td: "./prdtd/后端技术设计文档_Backend_TD.md"
+  api_docs: "./docs/api/"
+  deployment: "./docs/deployment/"
+
+# 团队协作
+team:
+  frontend:
+    lead: "前端技术负责人"
+    members: ["Unity开发工程师", "UI/UX设计师"]
+    responsibilities: ["Unity客户端开发", "游戏界面设计", "客户端性能优化"]
+    
+  backend:
+    lead: "后端技术负责人"
+    members: ["Go后端工程师", "数据库工程师"]
+    responsibilities: ["API服务开发", "数据库设计", "服务端性能优化"]
+    
+  product:
+    lead: "产品经理"
+    members: ["产品策划", "内容设计师"]
+    responsibilities: ["需求分析", "游戏内容设计", "用户体验优化"]
+
+# Git工作流
+git:
+  main_branch: "main"
+  development_branch: "development"
+  feature_prefix: "feature/"
+  hotfix_prefix: "hotfix/"
+  
+  conventional_commits: true
+  commit_scopes:
+    - "frontend"
+    - "backend"
+    - "docs"
+    - "config"
+    - "ci"
+
+# CI/CD配置
+ci_cd:
+  triggers:
+    - "push to main"
+    - "pull request to main"
+    - "push to development"
+    
+  stages:
+    - "lint and format"
+    - "test"
+    - "build"
+    - "deploy"
+    
+  environments:
+    staging: "development branch"
+    production: "main branch"
+
+# 工具和依赖
+tools:
+  unity:
+    version: "2022.3 LTS"
+    packages:
+      - "com.unity.ui.toolkit"
+      - "com.unity.textmeshpro"
+      - "com.unity.analytics"
+      
+  go:
+    version: "1.21+"
+    dependencies:
+      - "github.com/gin-gonic/gin"
+      - "github.com/lib/pq"
+      - "github.com/go-redis/redis/v8"
+      
+  infrastructure:
+    database: "PostgreSQL 15+"
+    cache: "Redis 7+"
+    container: "Docker & Docker Compose"
+    monitoring: "Prometheus & Grafana"
+
+# 联系信息
+contacts:
+  project_manager: "项目经理邮箱"
+  tech_lead: "技术负责人邮箱"
+  devops: "运维负责人邮箱" 
